@@ -1,0 +1,32 @@
+services:
+  postgres:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: pass
+    ports:
+      - 5432:5432
+    volumes:
+      - postgres_data:/data/db
+    networks:
+      - broccoli
+
+  supertokens:
+    image: registry.supertokens.io/supertokens/supertokens-postgresql
+    environment:
+      POSTGRESQL_USER: postgres
+      POSTGRESQL_PASSWORD: pass
+      POSTGRESQL_HOST: postgres
+      POSTGRESQL_PORT: 5432
+      POSTGRESQL_DATABASE_NAME: supertokens
+    ports:
+      - 3567:3567
+    networks:
+      - broccoli
+
+networks:
+  broccoli:
+    name: broccoli
+
+volumes:
+  postgres_data:
